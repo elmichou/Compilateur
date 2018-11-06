@@ -1,0 +1,12 @@
+# Test du tant que
+# Résultat attendu :
+# i = 8
+# j = 10
+procedure principale()
+ i = 4;
+ j = 0;
+ tantque(i < 8)
+	j = i + j;
+	i = i + 2;
+ fintantque
+finproc 
