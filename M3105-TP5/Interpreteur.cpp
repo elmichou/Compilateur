@@ -229,34 +229,36 @@ Noeud* Interpreteur::instPour(){
 }
 
 Noeud* Interpreteur::instEcrire() {
-    vector<Noeud*> container;
+    // <instEcrire>  ::= ecrire( <expression> | <chaine> {, <expression> | <chaine> })
+    Noeud* noeud = nullptr;
+    Noeud* noeud2 = nullptr;
     testerEtAvancer("ecrire");
     testerEtAvancer("(");
+
     if (m_lecteur.getSymbole() == "<CHAINE>") {
-        string chaineStr = m_lecteur.getSymbole().getChaine();
-        NoeudChaine* chaine = new NoeudChaine(chaineStr.substr(1, chaineStr.length() - 2));
-        container.push_back(chaine);
+        noeud = m_table.chercheAjoute(m_lecteur.getSymbole()); // on ajoute la variable ou l'entier à la table
         m_lecteur.avancer();
-    } else {
-        cout << "Catched error" << endl;
-        Noeud* expr = expression();
-        container.push_back(expr);
+        
+    }else{ // sinon c'est une expression
+        noeud = expression();
     }
-    while (m_lecteur.getSymbole() == ",") {
+    
+    vector<Noeud*> noeudsSupp;
+    
+    while(m_lecteur.getSymbole()==","){ // on regarde si il y a d'autres choses à écrire
         testerEtAvancer(",");
         if (m_lecteur.getSymbole() == "<CHAINE>") {
-            string chaineStr = m_lecteur.getSymbole().getChaine();
-            NoeudChaine* chaine = new NoeudChaine(chaineStr.substr(1, chaineStr.length() - 2));
-            container.push_back(chaine);
+            noeud2 = m_table.chercheAjoute(m_lecteur.getSymbole()); // on ajoute la variable ou l'entier à la table
             m_lecteur.avancer();
-        } else {
-            cout << "Catched error" << endl;
-            Noeud* expr = expression();
-            container.push_back(expr);
+            noeudsSupp.push_back(noeud2);
+        }else { // si le symbole lu est un entier , ça veut dire que c'est une expression
+            noeud2 = expression();
+            noeudsSupp.push_back(noeud2);
         }
     }
     testerEtAvancer(")");
-    return new NoeudInstEcrire(container);
+    
+    return new NoeudInstEcrire(noeud,noeudsSupp); // on retourn un noeud inst Ecrire
 }
 
 Noeud* Interpreteur::instLire(){

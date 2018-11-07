@@ -1,9 +1,11 @@
 # Fichier de test
 # Les lignes de commentaires commencent par #
 procedure principale()
-  a = 0;
-  ecrire("saisissez la valeur de a : ")
-  lire(a)
-  ecrire("a = ",a)
+  j = 0;
+  ecrire("Saisissez j : ")
+  lire(j)
+  pour(i = 0; i < j; i = i + 1)
+    ecrire(i)
+  finpour
 finproc
 # Commentaire Final

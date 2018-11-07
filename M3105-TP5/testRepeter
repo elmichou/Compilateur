@@ -1,0 +1,7 @@
+procedure principale()
+  #on répéte l'incrémentation de i jusqua que i == 5
+  i = 0;
+  repeter
+    i = i + 1;
+  jusqua(i == 5)
+finproc

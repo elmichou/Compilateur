@@ -1,0 +1,9 @@
+# Test du lire
+# Résultat attendu :
+# test = valeur saisie par l'utilisateur
+procedure principale()
+ test = 0;
+ ecrire("saisissez la valeur de test : ")
+ lire(test)
+ ecrire("test = ",test)
+finproc

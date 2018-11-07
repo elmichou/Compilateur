@@ -144,39 +144,25 @@ private:
     Noeud* m_sequence;    
 };
 
-class NoeudChaine : public Noeud {
-public:
-    NoeudChaine(string chaine);
- 
-    ~NoeudChaine() {
-    }
- 
-    const string getChaine() const;
- 
-    int executer();
- 
-private:
-    string m_chaine;
-};
-
 class NoeudInstEcrire : public Noeud {
-public:
-    NoeudInstEcrire(vector<Noeud*> container);
- 
-    ~NoeudInstEcrire() {
-    }
-    int executer();
-    
+// Classe pour représenter un noeud "instruction ecrire"
+//  et ses 2 fils : vecteur de noeuds , et vecteur de noeud supplémentaires
+  public:
+    NoeudInstEcrire(Noeud* noeudPremierElement, vector<Noeud*> noeudsSupp);
+     // Construit une instruction ecrire avec les vector de noeuds mis en paramètre.
+   ~NoeudInstEcrire() {}; // A cause du destructeur virtuel de la classe Noeud
+    int executer();  // Exécute l'instruction ecrire : ecrire ( <expression> | <chaine> puis potentiellement d'autres)
     void traduitEnCPP(ostream & cout,unsigned int indentation) const;
- 
-private:
-    vector<Noeud*> m_container;
+
+  private:
+      Noeud* m_noeud;
+      std::vector<Noeud*> m_noeudsSupp;
 };
 
 class NoeudValeur : public Noeud{
 public:
     NoeudValeur(int val);
-    ~NoeudValeur(){}
+    ~NoeudValeur(){};
     int executer();
 private:
     int m_val;
