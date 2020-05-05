@@ -33,8 +33,12 @@ private:
     Noeud*  inst();	       //        <inst> ::= <affectation> ; | <instSi>
     Noeud*  affectation(); // <affectation> ::= <variable> = <expression> 
     Noeud*  expression();  //  <expression> ::= <facteur> { <opBinaire> <facteur> }
+    Noeud*  terme();
     Noeud*  facteur();     //     <facteur> ::= <entier>  |  <variable>  |  - <facteur>  | non <facteur> | ( <expression> )
                            //   <opBinaire> ::= + | - | *  | / | < | > | <= | >= | == | != | et | ou
+    Noeud*  expBool();
+    Noeud*  relationET();
+    Noeud*  relation();
     Noeud*  instSi();      //      <instSi> ::= si ( <expression> ) <seqInst> finsi
     Noeud*  instSiRiche(); //      <instSiRiche> ::= si(<expression>) <seqInst> {sinonsi(<expression>) <seqInst> }[sinon <seqInst>]finsi
     Noeud*  instTantQue(); //      <instTantQue> ::= { <expression> } <seqInst> fintantque
@@ -42,6 +46,7 @@ private:
     Noeud*  instPour();    // <instPour> ::=  pour ( [ <affectation> ]  ; <expression> ; [ <affectation> ] ) <seqInst> fin pour
     Noeud*  instEcrire();  // <instEcrire> ::= ecrire( <expression> | <chaîne> { , <expression> | <chaine> } )
     Noeud*  instLire();    // <instLire> ::= lire ( <variable> { , <variable> } )
+    Noeud * instSelon();
     
     // outils pour simplifier l'analyse syntaxique
     void tester (const string & symboleAttendu) const throw (SyntaxeException);   // Si symbole courant != symboleAttendu, on lève une exception

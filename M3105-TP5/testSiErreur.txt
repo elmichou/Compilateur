@@ -1,0 +1,12 @@
+ 
+#Fichier de test du si
+procedure principale()
+  test1=0;
+  test2=0;
+  si(test1==test2)
+    test1 = 2;
+  finsi
+  si(test1==2)
+    test2 = 4;
+  fins
+finproc

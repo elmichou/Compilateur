@@ -1,12 +1,13 @@
+ 
 # Test du tant que
-# Résultat attendu :
+# RÃ©sultat attendu :
 # i = 8
-# j = 10
+# j = 2
 procedure principale()
  i = 4;
  j = 0;
- tantque(i < 8)
-	j = i + j;
+ tantque(i<8)
+	j = j + 1;
 	i = i + 2;
  fintantque
-finproc 
+finproc 

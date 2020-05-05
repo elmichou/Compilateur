@@ -19,6 +19,7 @@ public:
           void traduitEnCPP(ostream& cout, unsigned int indentation) const;
 
 	  friend ostream & operator << (ostream & cout, const SymboleValue & symbole); // affiche un symbole value sur cout
+          int getValeur() const ;
 
 private:
 	  bool m_defini;	// indique si la valeur du symbole est définie

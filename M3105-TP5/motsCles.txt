@@ -34,3 +34,7 @@ ecrire
 et
 ou
 non
+selon
+finselon
+cas
+defaut

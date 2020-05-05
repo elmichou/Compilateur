@@ -1,0 +1,15 @@
+procedure principale()
+  i=8;
+  selon(i)
+    cas 1 : 
+        ecrire("test num 1")
+    cas 2 :
+        ecrire("test num 2")
+    cas 8 : 
+        ecrire("test num 8")
+    cas 10 :
+        ecrire("test num 10")
+    defaut :
+        ecrire("test de defaut")
+  finselon
+finproc

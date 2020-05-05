@@ -86,7 +86,14 @@ int NoeudOperateurBinaire::executer() {
 
 void NoeudOperateurBinaire::traduitEnCPP(ostream & cout,unsigned int indentation) const {
     m_operandeGauche->traduitEnCPP(cout,0);
-    cout << " "<< m_operateur.getChaine() <<" ";
+    if (m_operateur.getChaine() == "et"){
+        cout << " && ";
+    } else if (m_operateur.getChaine() == "ou"){
+        cout << " || ";
+    } else {
+        cout << " " << m_operateur.getChaine() << " ";
+    }
+    
     m_operandeDroit->traduitEnCPP(cout, 0);
 }
 
@@ -295,6 +302,7 @@ int NoeudInstEcrire::executer() {
             cout << p->executer(); // on affiche le résultat
         }
     }
+    cout << endl;
     return 0;
 }
 
@@ -348,4 +356,68 @@ void NoeudInstLire::traduitEnCPP(ostream & cout,unsigned int indentation) const 
         i++;
     }
     cout << ";" << endl;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// NoeudInstSelon
+////////////////////////////////////////////////////////////////////////////////
+
+NoeudInstSelon::NoeudInstSelon(Noeud* variable, Noeud* entier, Noeud* sequence, std::vector<Noeud*> casSupp, std::vector<Noeud*> defaut) 
+: m_variable(variable), m_entier(entier), m_sequence(sequence), m_casSupp(casSupp), m_defaut(defaut){
+}
+//casSupp contient : entier | sequence | entier | sequence | ... | sequence
+int NoeudInstSelon::executer() {
+    
+    bool controleSequence = true;
+    int valeur = ((SymboleValue*)m_variable)->getValeur(); // on créé une variable int et on y ajoute la valeur de la variable mise en paramètre
+    
+    if(valeur == m_entier->executer()){ // si la variable est égale a la valeur du cas
+        m_sequence->executer(); // on exécute la séquence
+        controleSequence =false; // on sort de la boucle afin qu'aucun autre cas ne soit exécuter
+    }
+    
+    if(!m_casSupp.empty() && controleSequence){
+        int i=0; // dans la boucle, i ne sera que sur les entiers, ce qui explique son incrémentation par deux
+        while(i<m_casSupp.size() && controleSequence == true){ // tant qu'il y a des cas et que la séquence d'un cas n'a pas déjà été réalisée
+        // m_casSupp.at(i)   = entier
+        // m_casSupp.at(i+1) = séquence
+            if(valeur == m_casSupp.at(i)->executer()){ // si la valeur est égale à l'entier du cas
+               m_casSupp.at(i+1)->executer(); // on exécute la séquence
+                controleSequence =false; // on sort de la boucle car on a exécuter une séquence
+            }
+            i+=2; // on passe au prochain entier
+        } 
+    }
+    
+    if(!m_defaut.empty() && controleSequence){ // si il a un defaut et qu'aucune sequence n'a été faite
+        m_defaut.at(0)->executer(); // on execute la séquence
+    }
+}
+void NoeudInstSelon::traduitEnCPP(ostream& cout, unsigned int indentation) const {
+    cout << setw(4*indentation) <<""<<"switch(";
+    m_variable->traduitEnCPP(cout, 0); // ecriture de la variable à contrôler
+    cout << ") {" << endl;
+    
+    cout << setw(4*(indentation+1)) <<"" << "case ";
+    m_entier->traduitEnCPP(cout, 0); // ecriture du chiffre du case qui correspond à un des cas
+    cout << " : " << endl;
+    m_sequence->traduitEnCPP(cout, indentation+2);
+    cout << "\n"  << setw(4*(indentation+1)) <<"" << "break;";
+    
+    int i=0;
+    while(i<m_casSupp.size()){ // tant qu'il y a des cas (à partir du cas n°2)
+        cout << "\n" << setw(4*(indentation+1)) <<"" << "case ";
+        m_casSupp.at(i)->traduitEnCPP(cout, 0);
+        cout << " : " << endl;
+        m_casSupp.at(i+1)->traduitEnCPP(cout, indentation+2);
+        cout << "\n"  << setw(4*(indentation+1)) <<"" << "break;";
+        i+=2;
+    }
+    
+    if(m_defaut.size()>0){ // si il y a un default (qui correspond à un else)
+        cout << "\n" << setw(4*(indentation+1))<<"" << "default : "<< endl;
+        m_defaut.at(0)->traduitEnCPP(cout, indentation+2);
+    }
+    
+    cout << setw(4*indentation) <<"" << "}";
 }

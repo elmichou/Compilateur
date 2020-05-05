@@ -1,0 +1,7 @@
+ 
+procedure principale()
+  bool1 = (1 ou 0 et 0);
+  bool2 = ((1 ou 0) et 0);
+  ecrire("bool1 = ",bool1)
+  ecrire("bool2 = ",bool2)
+finproc

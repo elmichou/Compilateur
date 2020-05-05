@@ -28,3 +28,7 @@ ostream & operator<<(ostream & cout, const SymboleValue & symbole) {
   else cout << "indefinie ";
   return cout;
 }
+
+int SymboleValue::getValeur() const {
+    return m_valeur;
+}

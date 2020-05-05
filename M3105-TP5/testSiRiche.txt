@@ -1,0 +1,25 @@
+#Fichier de test du si riche
+# Résultat attendu :
+# a = 3
+# b = 1
+procedure principale()
+  #premier test de si riche avec un sinon
+  i = 3;
+  si(i == 0)
+    a = 0;
+  sinonsi(i == 1)
+    a = 1;
+  sinonsi(i == 2)
+    a = 2;
+  sinon
+    a = 3;
+  finsi
+
+  #test sans sinon
+  j = 1;
+  si(j == 0)
+    b = 0;
+  sinonsi(j == 1)
+    b = 1;
+  finsi
+finproc

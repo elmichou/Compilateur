@@ -1,5 +1,5 @@
 # Test du lire
-# Résultat attendu :
+# RÃ©sultat attendu :
 # test = valeur saisie par l'utilisateur
 procedure principale()
  test = 0;

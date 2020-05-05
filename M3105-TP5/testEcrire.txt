@@ -1,0 +1,6 @@
+procedure principale()
+  a = 2;
+  b = 3;
+  ecrire(a, " + ", b, " = ", a + b)
+  ecrire("addition réalisée avec succès")
+finproc 

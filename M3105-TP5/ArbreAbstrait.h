@@ -183,6 +183,24 @@ class NoeudInstLire : public Noeud {
       std::vector<Noeud*> m_noeudsSupp;
 };
 
+class NoeudInstSelon : public Noeud {
+// Classe pour représenter un noeud "instruction Selon"
+//  et ses multiples fils : une variable, un entier pour chaque cas, et une séquence
+//                          les deux vecteurs ne sont là que pour l'enventuel existence de plusieurs cas et d'un défaut
+  public:
+    NoeudInstSelon(Noeud* variable, Noeud* entier, Noeud* sequence,std::vector<Noeud*> casSupp, std::vector<Noeud*> defaut);
+     // Construit une instruction Selon avec le vector de noeud mis en paramètre.
+   ~NoeudInstSelon() {} // A cause du destructeur virtuel de la classe Noeud
+    int executer();  // Exécute l'instruction Selon 
+    void traduitEnCPP(ostream & cout,unsigned int indentation) const;
+  private:
+    Noeud*  m_variable;
+    Noeud*  m_entier;
+    Noeud*  m_sequence;
+    std::vector<Noeud*> m_casSupp;
+    std::vector<Noeud*> m_defaut;
+};
+
 
 #endif /* ARBREABSTRAIT_H */
 

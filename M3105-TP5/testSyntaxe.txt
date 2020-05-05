@@ -1,0 +1,7 @@
+# Test de la syntaxe
+procedure principale()
+ a = ;
+ si(a==3)
+    b = 1
+ fins
+finproc 
